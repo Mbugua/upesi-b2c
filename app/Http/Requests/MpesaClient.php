@@ -12,14 +12,12 @@ class MpesaClient
      */
     static function requestB2C(){
         Log::info('request Payment >>');
-        $initiatorName=env('MPESA_B2C_INITIATORNAME');
+
+        $initiatorName=env('MPESA_B2C_INITIATOR_NAME');
         $securityCredential=self::getSecurityCredentials(false);
 
         return $securityCredential;
     }
-
-
-
 
     /**
      * Generate Security Credential token
