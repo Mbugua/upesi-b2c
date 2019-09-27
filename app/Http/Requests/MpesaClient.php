@@ -35,6 +35,8 @@ class MpesaClient extends FormRequest
     static function requestB2C(array $data=[]){
         $initiatorName=env('MPESA_B2C_INITIATORNAME');
         $securityCredential=self::getSecurityCredentials(false);
+
+        return $securityCredential;
     }
 
 
