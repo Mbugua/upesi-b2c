@@ -13,9 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('disburse','DisbursementController@disburse');
 
 Route::fallback(function() {
-     return \response()->json([
+    return \response()->json([
             'response'=>[
                 'status'=>'failed',
                 'data'=>[
@@ -23,5 +24,5 @@ Route::fallback(function() {
                     'message'=>"Bad Request"
                 ]
             ]
-                ],400);
+        ],400);
 });
