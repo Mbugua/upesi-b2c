@@ -11,6 +11,7 @@ class MpesaClient
      * @param data
      */
     static function requestB2C(){
+        Log::info('request Payment >>');
         $initiatorName=env('MPESA_B2C_INITIATORNAME');
         $securityCredential=self::getSecurityCredentials(false);
 
