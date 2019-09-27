@@ -22,4 +22,15 @@ class DisbursementController extends Controller
         ]);
     }
 
+    function notFound(){
+        return \response()->json([
+            'response'=>[
+                'status'=>'failed',
+                'data'=>[
+                    'code'=>400,
+                    'message'=>"Bad Request"
+                ]
+            ]
+        ],400);
+    }
 }

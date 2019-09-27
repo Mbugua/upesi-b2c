@@ -15,14 +15,4 @@ use Illuminate\Http\Request;
 
 Route::post('disburse','DisbursementController@disburse');
 
-Route::fallback(function() {
-    return \response()->json([
-            'response'=>[
-                'status'=>'failed',
-                'data'=>[
-                    'code'=>400,
-                    'message'=>"Bad Request"
-                ]
-            ]
-        ],400);
-});
+Route::fallback('DisbursementController@notFound')->name('fallback');
