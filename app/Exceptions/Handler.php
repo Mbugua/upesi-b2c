@@ -3,7 +3,14 @@
 namespace App\Exceptions;
 
 use Exception;
+use Route;
+
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
+use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class Handler extends ExceptionHandler
 {
