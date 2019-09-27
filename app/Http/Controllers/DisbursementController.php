@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class DisbursementController extends Controller
 {
 
-    function disburse(Request $request){
+    function payment(Request $request){
     Log::info('Disbursement Request >>'. \json_encode($request->all()));
     $res=MpesaClient::requestB2C();
     return \response()->json([
