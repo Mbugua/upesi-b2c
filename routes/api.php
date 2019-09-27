@@ -14,3 +14,14 @@ use Illuminate\Http\Request;
 */
 
 
+Route::fallback(function() {
+     return \response()->json([
+            'response'=>[
+                'status'=>'failed',
+                'data'=>[
+                    'code'=>400,
+                    'message'=>"Bad Request"
+                ]
+            ]
+                ],400);
+});
