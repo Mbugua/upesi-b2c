@@ -9,9 +9,12 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-mbstring": "^7.3",
         "fideloper/proxy": "^4.0",
+        "hashids/hashids": "^4.0",
         "laravel/framework": "^6.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "safaricom/mpesa": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
