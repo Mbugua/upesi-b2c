@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use App\Request\MpesaClient;
+use App\Requests\MpesaClient;
 
 class DisbursementController extends Controller
 {
