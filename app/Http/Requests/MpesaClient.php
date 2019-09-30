@@ -43,7 +43,7 @@ class MpesaClient
      * return string
      */
     static function getSecurityCredentials(){
-        $envMode==\env('MPESA_ENV');
+        $envMode =\env('MPESA_ENV');
 		($envMode=='sandbox') ? $fopen=fopen(storage_path("certs/sandboxcert.cer"),"r")
             : $fopen=fopen(storage_path("certs/production.cer"),"r");
 
