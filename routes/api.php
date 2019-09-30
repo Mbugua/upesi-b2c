@@ -14,5 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::post('disburse','DisbursementController@disburse');
+Route::post('result','DisbursementController@result');
+Route::post('status','DisbursementController@status');
+Route::post('reverse','DisbursementController@reverse');
 
 Route::fallback('DisbursementController@notFound')->name('fallback');

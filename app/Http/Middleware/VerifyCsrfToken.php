@@ -23,7 +23,6 @@ class VerifyCsrfToken extends Middleware
         '/disburse',
         '/result',
         '/timeout',
-        '/balance',
         '/reverse',
     ];
 }
