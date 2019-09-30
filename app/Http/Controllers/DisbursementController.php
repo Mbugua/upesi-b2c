@@ -41,6 +41,12 @@ class DisbursementController extends Controller
      */
     function result(Request $request){
         Log::info('Disbursement::result >>'.\json_encode($request->all()));
+
+        return \response()->json([
+            'response'=>[
+                'data'=>$request->all()
+            ]
+        ],200);
     }
 
     /**
