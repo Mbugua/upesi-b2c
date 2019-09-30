@@ -16,7 +16,7 @@ class DisbursementController extends Controller
      */
     function disburse(Request $request){
     Log::info('Disbursement Request >>'. \json_encode($request->all()));
-    $amount=$request->input('amout');
+    $amount=$request->input('amount');
     $partyB=$request->input('msisdn');
     $remark=$request->input('remark');
     $occasion=$request->input('occasion');

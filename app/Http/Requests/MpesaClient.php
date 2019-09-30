@@ -28,7 +28,7 @@ class MpesaClient
             $resultURL=env('MPESA_B2C_RESULT_URL');
 
             $b2cTransaction=$mpesa->b2c($initiatorName, $securityCredential, $commandID, $amount, $partyA, $partyB, $remarks, $queueTimeOutURL, $resultURL, $occasion);
-            return $b2cTransaction;
+            return json_decode($b2cTransaction);
 
         }catch(Exception $e){
             return $e;
