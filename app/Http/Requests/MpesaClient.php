@@ -15,10 +15,7 @@ class MpesaClient
         Log::info('MpesaClient::b2cPaymentRequest >>'.\json_encode($data));
         try{
             $mpesa = new \Safaricom\Mpesa\Mpesa();
-
-
-
-            $securityCredential=self::getSecurityCredentials(false);
+            $securityCredential=self::getSecurityCredentials();
             $commandID=env("MPESA_B2C_COMMANDID");
             $amount=$data->amount;
             $partyA=env('MPESA_B2C_SHORTCODE');
@@ -45,9 +42,9 @@ class MpesaClient
      * @param envMode :sandox|production
      * return string
      */
-    static function getSecurityCredentials($envMode=true){
-
-		($envMode) ? $fopen=fopen(storage_path("certs/sandboxcert.cer"),"r")
+    static function getSecurityCredentials(){
+        $envMode==\env('MPESA_ENV');
+		($envMode=='sandbox') ? $fopen=fopen(storage_path("certs/sandboxcert.cer"),"r")
             : $fopen=fopen(storage_path("certs/production.cer"),"r");
 
 		$pub_key=fread($fopen,8192);
