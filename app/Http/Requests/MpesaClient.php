@@ -35,7 +35,7 @@ class MpesaClient
 		$pub_key=fread($fopen,8192);
         fclose($fopen);
         $initiatorPass=env("MPESA_SECURTIY_CREDENTIAL");
-        openssl_public_encrypt($initiatorPass,$crypttext);
+        openssl_public_encrypt($initiatorPass,$crypttext,$pub_key);
         $crypted=\base64_encode($crypttext);
         Log::info('securityCredential >>'.$crypted);
         return $crypted;
