@@ -9,7 +9,7 @@ class Disbursement extends Model
     protected $table = 'disbursement';
 
     protected $fillable=[
-        'reference', 
+        'reference', //unique hash 
         'amount',
         'paybill',//PartyA
         'msisdn',//PartyB\
