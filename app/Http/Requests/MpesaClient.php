@@ -24,8 +24,8 @@ class MpesaClient
             $partyB=$data->partyB;
             $remarks=$data->remarks;
             $occasion=$data->occasion;
-            $queueTimeOuttURL=env('MPESA_B2C_QUEUETIMEOUT_URL');
-            $resultURl=env('MPESA_B2C_RESULT_URL');
+            $queueTimeOutURL=env('MPESA_B2C_QUEUETIMEOUT_URL');
+            $resultURL=env('MPESA_B2C_RESULT_URL');
 
             $b2cTransaction=$mpesa->b2c($initiatorName, $securityCredential, $commandID, $amount, $partyA, $partyB, $remarks, $queueTimeOutURL, $resultURL, $occasion);
             return $b2cTransaction;
