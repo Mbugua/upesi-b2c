@@ -16,7 +16,7 @@ class MpesaClient
         try{
             $mpesa = new \Safaricom\Mpesa\Mpesa();
 
-            $initiatorName=env('MPESA_B2C_INITIATOR_NAME');
+
             Log::debug('initiator'.$initiatorName);
             $securityCredential=self::getSecurityCredentials(false);
             $commandID=env("MPESA_B2C_COMMANDID");
@@ -27,6 +27,7 @@ class MpesaClient
             $occasion=$data->occasion;
             $queueTimeOutURL=env('MPESA_B2C_QUEUETIMEOUT_URL');
             $resultURL=env('MPESA_B2C_RESULT_URL');
+            $initiatorName=env('MPESA_B2C_INITIATOR_NAME'.$partyA);
             $b2cTransaction=$mpesa->b2c($initiatorName, $securityCredential, $commandID, $amount, $partyA, $partyB, $remarks, $queueTimeOutURL, $resultURL, $occasion);
             return $b2cTransaction;
 
