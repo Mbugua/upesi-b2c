@@ -27,7 +27,7 @@ class DisbursementController extends Controller
                 'response'=>[
                     'status'=>'success',
                     'data'=>[
-                        'message'=>$res
+                        'message'=>\json_decode($res)
                     ]
                 ]
             ]);

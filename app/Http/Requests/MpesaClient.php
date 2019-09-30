@@ -29,7 +29,7 @@ class MpesaClient
             Log::debug('partyA'.$partyA);
             Log::debug('partyB'.$partyB);
             $b2cTransaction=$mpesa->b2c($initiatorName, $securityCredential, $commandID, $amount, $partyA, $partyB, $remarks, $queueTimeOutURL, $resultURL, $occasion);
-            return json_decode($b2cTransaction);
+            return $b2cTransaction;
 
         }catch(Exception $e){
             return $e;
