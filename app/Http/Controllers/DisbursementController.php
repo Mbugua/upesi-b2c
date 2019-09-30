@@ -16,7 +16,13 @@ class DisbursementController extends Controller
      */
     function disburse(Request $request){
     Log::info('Disbursement Request >>'. \json_encode($request->all()));
-    $res=MpesaClient::requestB2C();
+    $amount=$request->input('amout');
+    $partyB=$request->input('msisdn');
+    $remark=$request->input('remark');
+    $occasion=$request->input('occasion');
+    $data= (Object) ['amount'=>$amount,'partyB'=>$partyB,'remarks'=>$remark,'occasion'=>$occasion];
+
+    $res=MpesaClient::b2cPaymentRequest($data);
         return \response()->json([
                 'response'=>[
                     'status'=>'success',

@@ -4,19 +4,35 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
+use Safaricom\Mpesa\Mpesa;
 
 class MpesaClient
 {
     /**
      * @param data
      */
-    static function requestB2C(){
-        Log::info('request Payment >>');
+    static function b2cPaymentRequest($data){
+        Log::info('MpesaClient::b2cPaymentRequest >>'.\json_encode($data));
+        try{
+            $mpesa = new \Safaricom\Mpesa\Mpesa();
 
-        $initiatorName=env('MPESA_B2C_INITIATOR_NAME');
-        $securityCredential=self::getSecurityCredentials(false);
+            $initiatorName=env('MPESA_B2C_INITIATOR_NAME');
+            $securityCredential=self::getSecurityCredentials(false);
+            $commandID=env("MPESA_B2C_COMMANDID");
+            $amount=$data->amount;
+            $partyA=env('MPESA_B2C_SHORTCODE');
+            $partyB=$data->partyB;
+            $remarks=$data->remarks;
+            $occasion=$data->occasion;
+            $queueTimeOuttURL=env('MPESA_B2C_QUEUETIMEOUT_URL');
+            $resultURl=env('MPESA_B2C_RESULT_URL');
 
-        return $securityCredential;
+            $b2cTransaction=$mpesa->b2c($initiatorName, $securityCredential, $commandID, $amount, $partyA, $partyB, $remarks, $queueTimeOutURL, $resultURL, $occasion);
+            return $b2cTransaction;
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
     /**
