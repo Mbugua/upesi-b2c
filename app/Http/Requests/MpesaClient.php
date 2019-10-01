@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 use Safaricom\Mpesa\Mpesa;
 
@@ -18,8 +17,8 @@ class MpesaClient
             $securityCredential=self::getSecurityCredentials();
             $commandID=env("MPESA_B2C_COMMANDID");
             $amount=$data->amount;
-            $partyA=env('MPESA_B2C_SHORTCODE');
-            $partyB=$data->partyB;
+            $partyA=env('MPESA_B2C_SHORTCODE') ?:$data->shortcode;
+            $partyB=$data->msisdn;
             $remarks=$data->remarks;
             $occasion=$data->occasion;
             $queueTimeOutURL=env('MPESA_B2C_QUEUETIMEOUT_URL');
@@ -43,7 +42,7 @@ class MpesaClient
      * return string
      */
     static function getSecurityCredentials(){
-        $envMode =\env('MPESA_ENV');
+        $envMode =\env('MPESA_ENV')?:'production';
         Log::info('<<< check envMode for cert >>>'.$envMode);
         ($envMode=='sandbox') ? $fopen=fopen(storage_path("certs/cert.cer"),"r")
             : $fopen=fopen(storage_path("certs/production.cer"),"r");

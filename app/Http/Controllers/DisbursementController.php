@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\MpesaClient;
+// use App\Http\Requests\MpesaClient;
+use App\Jobs\ProcessDisbursement;
+use App\Models\Disbursement;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Hashids\Hashids;
 
 
 class DisbursementController extends Controller
@@ -15,22 +18,35 @@ class DisbursementController extends Controller
      * @param request
      */
     function disburse(Request $request){
-    Log::info('Disbursement Request >>'. \json_encode($request->all()));
-    $amount=$request->input('amount');
-    $partyB=$request->input('msisdn');
-    $remark=$request->input('remark');
-    $occasion=$request->input('occasion');
-    $data= (Object) ['amount'=>$amount,'partyB'=>$partyB,'remarks'=>$remark,'occasion'=>$occasion];
+        $hash=new Hashids('upesi-b2c-api');
+        $shortcode=$request->shortcode ?: env('MPESA_B2C_SHORTCODE');
+        $reference=$hash->encode(time(), $shortcode, intval($request->input('amount')), $request->input('msisdn'));
+        $remark='upesi_loan_request_'.$request->input('msisdn');
+        $occasion= 'upesi_disbx_'.$reference;
+        $msisdn=$request->input('msisdn');
+        	$length = strlen($msisdn);
+			if($length != 12 && strpos($msisdn,'07') === 0 && $length == 10){
+				$msisdn = "254".substr($msisdn,1);
+			}
+        $data= [
+                'amount'=>$request->input('amount'),
+                'msisdn'=>$msisdn,
+                'remarks'=>$remark,
+                'occasion'=>$occasion,
+                'shortcode'=>$shortcode,
+                'reference'=>$reference,
+            ];
 
-    $res=MpesaClient::b2cPaymentRequest($data);
-    Log::info("b2cPaymentRequest >>".($res));
-        return \response()->json([
-                'response'=>[
-                    'status'=>'success',
-                    'message'=>'OK',
-                    'code'=>200
-                ]
-                ],200);
+        //Queue payments
+        ProcessDisbursement::dispatch($data)->onQueue('disbsursements')->delay(3);
+
+            return \response()->json([
+                    'response'=>[
+                        'status'=>'success',
+                        'message'=>'OK',
+                        'code'=>200
+                    ]
+                    ],200);
     }
 
     /**

@@ -1,19 +1,20 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Disbursement extends Model
 {
+
     protected $table = 'disbursement';
 
     protected $fillable=[
-        'reference', //unique hash 
+        'reference',
         'amount',
-        'paybill',//PartyA
-        'msisdn',//PartyB\
+        'shortcode',
+        'msisdn',
         'remarks',
-        'occassion',
+        'occasion',
     ];
 }
