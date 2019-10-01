@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-bcmath": "^7.3",
         "ext-mbstring": "^7.3",
         "fideloper/proxy": "^4.0",
         "hashids/hashids": "^4.0",
