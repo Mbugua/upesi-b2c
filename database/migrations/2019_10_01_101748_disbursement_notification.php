@@ -16,8 +16,8 @@ class DisbursementNotification extends Migration
         Schema::create('notification',function(Blueprint $table){
             $table->bigIncrements('id');
             $table->string('disb_reference','191')->unique();
-            $table->int('result_type')->nullable();
-            $table->int('result_code','6')->nullable();
+            $table->string('result_type')->nullable();
+            $table->string('result_code','6')->nullable();
             $table->string('result_desc')->nullable();
             $table->string('originator');
             $table->string('conversation_id');
