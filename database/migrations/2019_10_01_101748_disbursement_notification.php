@@ -13,7 +13,15 @@ class DisbursementNotification extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('notification',function(Blueprint $table){
+            $table->bigIncrements('id');
+            $table->string('disb_reference','191')->unique();
+            $table->int('result_type')->nullable();
+            $table->int('result_code','6')->nullable();
+            $table->string('result_desc')->nullable();
+            $table->string('conversation_id')->nullable();
+            $table->string('transaction_id','32')->unique()->nullable();
+        });
     }
 
     /**
@@ -24,5 +32,6 @@ class DisbursementNotification extends Migration
     public function down()
     {
         //
+         Schema::dropIfExists('notification');
     }
 }

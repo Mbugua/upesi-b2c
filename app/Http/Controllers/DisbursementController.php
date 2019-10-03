@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-// use App\Http\Requests\MpesaClient;
+use App\Jobs\ProcessNotification;
 use App\Jobs\ProcessDisbursement;
 use App\Models\Disbursement;
 use Illuminate\Support\Facades\Log;
@@ -57,7 +57,9 @@ class DisbursementController extends Controller
      */
     function result(Request $request){
         Log::info('Disbursement::result >>'.\json_encode($request->all()));
-
+        $data=$request->Result;
+        Log::debug('result >>>'.\json_encode($data));
+        // ProcessNotification::dispatch($data)->delay(4);
         return \response()->json([
             'response'=>[
                 'data'=>$request->all()
