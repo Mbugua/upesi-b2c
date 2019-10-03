@@ -39,11 +39,12 @@ class ProcessDisbursement implements ShouldQueue
         $b2c=MpesaClient::b2cPaymentRequest((object) $this->disbursement);
         Log::debug('b2c result >>>'.\json_encode($b2c));
         if($b2c){
-            // $notification=['converstation_id'=>$b2c,'transaction_id'=>$b2c,'disb_reference'=>$this->disbursement->reference];
-            // DisbursementNotification::create($notification);
+            $notification=['converstation_id'=>$b2c->COnservationID,'transaction_id'=>$b2c,'disb_reference'=>$this->disbursement->reference];
+           $notify= DisbursementNotification::create($notification);
+           $notify->save();
         }
 
-        // $this->disbursement->save();
+        $this->disbursement->save();
 
     }
 }

@@ -13,6 +13,7 @@ class DisbusrementNotification extends Model
         'result_type',
         'result_code',
         'result_desc',
+        'originator',
         'conversation_id',
         'transaction_id',
     ];
