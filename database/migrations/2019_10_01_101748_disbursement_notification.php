@@ -19,8 +19,8 @@ class DisbursementNotification extends Migration
             $table->string('result_type')->nullable();
             $table->string('result_code','6')->nullable();
             $table->string('result_desc')->nullable();
-            $table->string('originator');
-            $table->string('conversation_id');
+            $table->string('originator')->nullable();
+            $table->string('conversation_id')->nullable();
             $table->string('transaction_id','32')->unique()->nullable();
             $table->timestamps();
         });
