@@ -41,7 +41,7 @@ class ProcessDisbursement implements ShouldQueue
             $notificationData=\json_decode($b2c,true);
             // Log::info('disbursement response >>'.$b2c);
             Log::info('disbursement response >>'.$notificationData);
-            $notification=['converstation_id'=>$notificationData->ConversationID,'originator'=>$notificationData->OriginatorConversationID,'disb_reference'=>$this->disbursement->reference];
+            $notification=['converstation_id'=>$notificationData['ConversationID'],'originator'=>$notificationData['OriginatorConversationID'],'disb_reference'=>$this->disbursement->reference];
             Log::info('disbursement notifiaction payload >>'.\json_encode($notificationData));
             //    $notify= DisbursementNotification::create($notification);
             //    $notify->save();
