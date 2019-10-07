@@ -59,7 +59,9 @@ class DisbursementController extends Controller
         Log::info('Disbursement::result >>'.\json_encode($request->all()));
         $data=$request->Result;
         Log::debug('result >>>'.\json_encode($data));
-        // ProcessNotification::dispatch($data)->delay(4);
+        $notification=['result_type'=>$data->ResultType,'result_code'=>$data->ResultCode,'result_desc'=>$data->ResultDesc,'transaction_id'=>$data->TransactionID];
+        // {"ResultType":0,"ResultCode":2001,"ResultDesc":"The initiator information is invalid.","OriginatorConversationID":"8689-8822575-1","ConversationID":"AG_20191007_0000722022d0c21bfd6d","TransactionID":"NJ771HAKXL
+        ProcessNotification::dispatch($notification)->onQueue('disbursement_notification')->delay(4);
         return \response()->json([
             'response'=>[
                 'data'=>$request->all()

@@ -11,15 +11,15 @@ use Illuminate\Queue\SerializesModels;
 class ProcessNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $data;
+    protected $notification;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($notification)
     {
-        //
+        $this->notification = $notification;
     }
 
     /**
@@ -30,6 +30,7 @@ class ProcessNotification implements ShouldQueue
     public function handle()
     {
         //
+        $notify=Notifcation::update($this->notification);
 
     }
 }
