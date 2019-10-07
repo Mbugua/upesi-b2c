@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Disbursement;
-use App\Models\DisbursementNotification;
+use App\Models\Notification;
 use App\Http\Requests\MpesaClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -43,7 +43,7 @@ class ProcessDisbursement implements ShouldQueue
             $notificationData=json_decode(json_decode($b2c,true,JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)); //bloody eeffin string from safcom
             $notification=['converstation_id'=>$notificationData->ConversationID,'originator'=>$notificationData->OriginatorConversationID,'disb_reference'=>$disb_reference];
             Log::info('disbursement notifiaction payload >> '.\json_encode($notificationData));
-               $notify= DisbursementNotification::create($notification);
+               $notify= Notification::create($notification);
                $notify->save();
         }
         //update disbursement trx : status
