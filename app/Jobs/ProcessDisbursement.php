@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Jobs;
+use App\Jobs\DisbursementNotification;
 use App\Models\Disbursement;
 use App\Http\Requests\MpesaClient;
 use Illuminate\Bus\Queueable;
