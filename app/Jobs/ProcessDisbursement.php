@@ -32,7 +32,7 @@ class ProcessDisbursement implements ShouldQueue
      */
     public function handle()
     {
-        $disb_reference=$this->disbursement->reference;
+        $disb_reference=$this->disbursement['reference'];
         //Process Disbursement
         Disbursement::create($this->disbursement);
         Log::info('process disbursement >> '.\json_encode($this->disbursement));
