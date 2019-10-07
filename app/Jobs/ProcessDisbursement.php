@@ -38,12 +38,11 @@ class ProcessDisbursement implements ShouldQueue
         Log::info('Processing new deisbursment request >>'.json_encode($this->disbursement));
         $b2c=MpesaClient::b2cPaymentRequest((object) $this->disbursement);
         if($b2c){
-            $notification= \json_decode($b2c,JSON_OBJECT_AS_ARRAY);
-            Log::debug('b2c >>>>>'.$notification);
-            Log::debug('b2c  --->'.$notification->ConversationID);
-            // $notification=['converstation_id'=>$b2c['ConversationID'],'originator'=>$b2c->OriginatorConversationID,'disb_reference'=>$this->disbursement->reference];
-        //    $notify= DisbursementNotification::create($notification);
-        //    $notify->save();
+            $notificationData= \json_decode($b2c,JSON_OBJECT_AS_ARRAY);
+            $notification=['converstation_id'=>$notificationData['ConversationID'],'originator'=>$notificationData['OriginatorConversationID'],'disb_reference'=>$this->disbursement->reference];
+            Log::info('disbursement response >>'.\json_encode($notification));
+            //    $notify= DisbursementNotification::create($notification);
+            //    $notify->save();
         }
         //disbursement status
         /** processing, failed, success */
