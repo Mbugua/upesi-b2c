@@ -13,7 +13,7 @@ class CreateDisbursementNotificationTimestamps extends Migration
      */
     public function up()
     {
-        Schema::create('disbursement_notification_timestamps', function (Blueprint $table) {
+        Schema::create('notification', function (Blueprint $table) {
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ class CreateDisbursementNotificationTimestamps extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('disbursement_notification_timestamps');
+        Schema::dropIfExists('notification');
     }
 }
