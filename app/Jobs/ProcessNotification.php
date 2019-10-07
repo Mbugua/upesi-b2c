@@ -38,6 +38,6 @@ class ProcessNotification implements ShouldQueue
                                  'transaction_id'=>$this->notification['transaction_id'],
                                  'result_code'=>$this->notification['result_code']
                 ]);
-            $notify=save();
+            $notify->save();
     }
 }
