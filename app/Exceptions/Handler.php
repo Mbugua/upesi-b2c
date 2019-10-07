@@ -54,29 +54,50 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof NotFoundHttpException) {
+             if ($request->is('api/*')) {
+                    return response()->json(['response'=>['error_code'=>$exception->getCode() ,'exception'=>$exception->getMessage()]]);
+                }
             return Route::respondWithRoute('fallback');
         }
 
         if ($exception instanceof ModelNotFoundException) {
+                         if ($request->is('api/*')) {
+                    return response()->json(['response'=>['error_code'=>$exception->getCode() ,'exception'=>$exception->getMessage()]]);
+                }
             return Route::respondWithRoute('fallback');
         }
 
         if ($exception instanceof MethodNotAllowedHttpException){
+                         if ($request->is('api/*')) {
+                    return response()->json(['response'=>['error_code'=>$exception->getCode() ,'exception'=>$exception->getMessage()]]);
+                }
             return Route::respondWithRoute('fallback');
         }
         if($exception instanceof ClientException){
+                         if ($request->is('api/*')) {
+                    return response()->json(['response'=>['error_code'=>$exception->getCode() ,'exception'=>$exception->getMessage()]]);
+                }
             return Route::respondWithRoute('fallback');
         }
 
         if($exception instanceof RequestException){
+                         if ($request->is('api/*')) {
+                    return response()->json(['response'=>['error_code'=>$exception->getCode() ,'exception'=>$exception->getMessage()]]);
+                }
             return Route::respondWithRoute('fallback');
         }
 
         if($exception instanceof Exception){
+                         if ($request->is('api/*')) {
+                    return response()->json(['response'=>['error_code'=>$exception->getCode() ,'exception'=>$exception->getMessage()]]);
+                }
             return Route::respondWithRoute('fallback');
         }
 
         if($exception instanceof ClientErrorResponseException){
+                         if ($request->is('api/*')) {
+                    return response()->json(['response'=>['error_code'=>$exception->getCode() ,'exception'=>$exception->getMessage()]]);
+                }
             return Route::respondWithRoute('fallback');
         }
 
