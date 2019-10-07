@@ -22,6 +22,7 @@ class DisbursementNotification extends Migration
             $table->string('originator');
             $table->string('conversation_id');
             $table->string('transaction_id','32')->unique()->nullable();
+            $table->timestamps();
         });
     }
 
