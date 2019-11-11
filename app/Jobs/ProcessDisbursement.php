@@ -39,19 +39,13 @@ class ProcessDisbursement implements ShouldQueue
         Disbursement::create($this->disbursement);
         Log::info('process disbursement >> '.\json_encode($this->disbursement));
         $b2c=MpesaClient::b2cPaymentRequest((object) $this->disbursement);
-        Log::info('check b2c con here >>'.\json_encode($b2c));
-        $notificationData=(null != $b2c) ? $b2c :false;
-
-        if(! (object) $notificationData && !$disb_reference ){
-            Log::info('notificationData >>'.\json_encode($notificationData));
-            exit('0');
+        if($b2c && $disb_reference ){
+            $notificationData=json_decode(json_decode($b2c,true,JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)); //bloody eeffin string from safcom
+            $notification=['conversation_id'=>$notificationData->ConversationID,'originator'=>$notificationData->OriginatorConversationID,'disb_reference'=>$disb_reference];
+            Log::info('disbursement notifiaction payload >> '.\json_encode($notificationData));
+               $notify= Notification::create($notification);
+               $notify->save();
         }
-
-        $notification=['conversation_id'=>$notificationData->ConversationID,'originator'=>$notificationData->OriginatorConversationID,'disb_reference'=>$disb_reference];
-        Log::info('disbursement notifiaction payload >> '.\json_encode($notificationData));
-        $notify= Notification::create($notification);
-        $notify->save();
-
         //update disbursement trx : status
         /**statuses :{ processing, failed, success} */
 
