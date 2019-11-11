@@ -40,8 +40,14 @@ class ProcessDisbursement implements ShouldQueue
         Log::info('process disbursement >> '.\json_encode($this->disbursement));
         $b2c=MpesaClient::b2cPaymentRequest((object) $this->disbursement);
         Log::info('check b2c con here >>'.\json_encode($b2c));
+        $disbursmentResponse=(null != $b2c) ?json_decode(json_decode($b2c,true)):false;
         if($b2c && $disb_reference ){
-            $notificationData=json_decode(json_decode($b2c,true,JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)); //bloody eeffin string from safcom
+
+            $notificationData=json_decode($disbursmentResponse);
+            if(!$notificationData){
+                Log::info('notificationData >>'.\json_encode($b2c));
+                return;
+            }
             $notification=['conversation_id'=>$notificationData->ConversationID,'originator'=>$notificationData->OriginatorConversationID,'disb_reference'=>$disb_reference];
             Log::info('disbursement notifiaction payload >> '.\json_encode($notificationData));
                $notify= Notification::create($notification);
