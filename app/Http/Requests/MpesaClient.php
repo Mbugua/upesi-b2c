@@ -42,7 +42,7 @@ class MpesaClient
      * return string
      */
     static function getSecurityCredentials(){
-        $envMode =\env('MPESA_ENV')?:'production';
+        $envMode =\env('MPESA_ENV');
         Log::info('<<< check envMode for cert >>>'.$envMode);
         ($envMode=='sandbox') ? $fopen=fopen(storage_path("certs/cert.cer"),"r")
             : $fopen=fopen(storage_path("certs/production.cer"),"r");
@@ -52,7 +52,30 @@ class MpesaClient
         $initiatorPass=env("MPESA_SECURTIY_CREDENTIAL");
         openssl_public_encrypt($initiatorPass,$crypttext,$pub_key);
         $crypted=\base64_encode($crypttext);
+        Log::info("<<SecurityCredentials >>>".json_encode($crypted));
         return $crypted;
     }
 
+
+    static function generateSC(){
+        $envMode=\env('MPESA_ENV');
+        $initiatorPass=\env("MPESA_SECURITY_CREDENTIAL");
+        switch($envMode){
+            case 'sandbox':
+            $publicKey=\file_get_contents(\storage_path('certs/cert.cer'));
+            \openssl_public_encrypt($initiatorPass,$encrypted,$publicKey,OPENSSL_PKCS1_PADDING);
+            $sc = \base64_encode($encrypted);
+            Log::info("<< sandbox SecurityCredentials >>>".json_encode($sc));
+            break;
+            case 'live':
+            $publicKey=\file_get_contents(\storage_path('certs/production.cer'));
+            \openssl_public_encrypt($initiatorPass,$encrypted,$publicKey,OPENSSL_PKCS1_PADDING);
+            $sc = \base64_encode($encrypted);
+            Log::info("<<live SecurityCredentials >>>".json_encode($sc));
+            break;
+            default:
+            $sc = ['message'=>"Invalid env set"];
+            break;
+        }
+    }
 }
