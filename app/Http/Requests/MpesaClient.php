@@ -68,7 +68,7 @@ class MpesaClient
             Log::info("<< sandbox SecurityCredentials >>>".json_encode($sc));
             break;
             case 'live':
-            $publicKey=\file_get_contents(\storage_path('certs/production.cer'));
+            $publicKey=\file_get_contents(\storage_path('certs/Production.cer'));
             \openssl_public_encrypt($initiatorPass,$encrypted,$publicKey,OPENSSL_PKCS1_PADDING);
             $sc = \base64_encode($encrypted);
             Log::info("<<live SecurityCredentials >>>".json_encode($sc));
