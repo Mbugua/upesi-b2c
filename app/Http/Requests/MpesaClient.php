@@ -14,7 +14,7 @@ class MpesaClient
         Log::info('MpesaClient::b2cPaymentRequest >>'.\json_encode($data));
         try{
             $mpesa = new \Safaricom\Mpesa\Mpesa();
-            $securityCredential=self::generateSC();
+            $securityCredential=self::getSecurityCredentials();
             $commandID=env("MPESA_B2C_COMMANDID") ?:'SalaryPayment';
             $amount=$data->amount;
             $partyA=env('MPESA_B2C_SHORTCODE') ?:$data->shortcode;
@@ -45,7 +45,7 @@ class MpesaClient
         $envMode =\env('MPESA_ENV');
         Log::info('<<< check envMode for cert >>>'.$envMode);
         ($envMode=='sandbox') ? $fopen=fopen(storage_path("certs/cert.cer"),"r")
-            : $fopen=fopen(storage_path("certs/production.cer"),"r");
+            : $fopen=fopen(storage_path("certs/Production.cer"),"r");
 
 		$pub_key=fread($fopen,8192);
         fclose($fopen);
