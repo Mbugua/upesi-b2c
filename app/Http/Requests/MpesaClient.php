@@ -15,15 +15,17 @@ class MpesaClient
         try{
             $mpesa = new \Safaricom\Mpesa\Mpesa();
             $securityCredential=self::getSecurityCredentials();
-            $commandID=env("MPESA_B2C_COMMANDID") ?:'SalaryPayment';
+            $commandID=env("MPESA_B2C_COMMANDID");
             $amount=$data->amount;
-            $partyA=env('MPESA_B2C_SHORTCODE') ?:$data->shortcode;
+            $partyA=env('MPESA_B2C_SHORTCODE');
             $partyB=$data->msisdn;
             $remarks=$data->remarks;
             $occasion=$data->occasion;
             $queueTimeOutURL=env('MPESA_B2C_QUEUETIMEOUT_URL');
             $resultURL=env('MPESA_B2C_RESULT_URL');
-            $initiatorName=env('MPESA_B2C_INITIATOR_NAME')?:$partyA;
+            $initiatorName=env('MPESA_B2C_INITIATOR_NAME');
+
+            Log::debug('initiator details >>>'.\json_encode('initiator >>'.$initiatorName.'cmd >>'.$commandID.'shortcode'.$partyA));
 
             $b2cTransaction=$mpesa->b2c($initiatorName, $securityCredential, $commandID, $amount, $partyA, $partyB, $remarks, $queueTimeOutURL, $resultURL, $occasion);
             return $b2cTransaction;
@@ -43,7 +45,6 @@ class MpesaClient
      */
     static function getSecurityCredentials(){
         $envMode =\env('MPESA_ENV');
-        Log::info('<<< check envMode for cert >>>'.$envMode);
         ($envMode=='sandbox') ? $fopen=fopen(storage_path("certs/cert.cer"),"r")
             : $fopen=fopen(storage_path("certs/Production.cer"),"r");
 
@@ -54,28 +55,5 @@ class MpesaClient
         $crypted=\base64_encode($crypttext);
         Log::info("<<SecurityCredentials >>>".json_encode($crypted));
         return $crypted;
-    }
-
-
-    static function generateSC(){
-        $envMode=\env('MPESA_ENV');
-        $initiatorPass=\env("MPESA_SECURITY_CREDENTIAL");
-        switch($envMode){
-            case 'sandbox':
-            $publicKey=\file_get_contents(\storage_path('certs/cert.cer'));
-            \openssl_public_encrypt($initiatorPass,$encrypted,$publicKey,OPENSSL_PKCS1_PADDING);
-            $sc = \base64_encode($encrypted);
-            Log::info("<< sandbox SecurityCredentials >>>".json_encode($sc));
-            break;
-            case 'live':
-            $publicKey=\file_get_contents(\storage_path('certs/Production.cer'));
-            \openssl_public_encrypt($initiatorPass,$encrypted,$publicKey,OPENSSL_PKCS1_PADDING);
-            $sc = \base64_encode($encrypted);
-            Log::info("<<live SecurityCredentials >>>".json_encode($sc));
-            break;
-            default:
-            $sc = ['message'=>"Invalid env set"];
-            break;
-        }
     }
 }
