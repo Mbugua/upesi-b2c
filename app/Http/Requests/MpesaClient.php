@@ -24,9 +24,6 @@ class MpesaClient
             $queueTimeOutURL=env('MPESA_B2C_QUEUETIMEOUT_URL');
             $resultURL=env('MPESA_B2C_RESULT_URL');
             $initiatorName=env('MPESA_B2C_INITIATOR_NAME');
-
-            Log::debug('initiator details >>>'.\json_encode('initiator >>'.$initiatorName.'cmd >>'.$commandID.'shortcode'.$partyA));
-
             $b2cTransaction=$mpesa->b2c($initiatorName, $securityCredential, $commandID, $amount, $partyA, $partyB, $remarks, $queueTimeOutURL, $resultURL, $occasion);
             return $b2cTransaction;
 
@@ -51,10 +48,8 @@ class MpesaClient
 		$pub_key=fread($fopen,8192);
         fclose($fopen);
         $initiatorPass=\env("MPESA_SECURITY_CREDENTIAL");
-        Log::info("<<i initiator pass >>>".json_encode($initiatorPass));
         openssl_public_encrypt($initiatorPass,$crypttext,$pub_key);
         $crypted=\base64_encode($crypttext);
-        Log::info("<<SecurityCredentials >>>".json_encode($crypted));
         return $crypted;
     }
 }
