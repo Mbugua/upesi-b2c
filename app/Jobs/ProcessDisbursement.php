@@ -36,7 +36,7 @@ class ProcessDisbursement implements ShouldQueue
     {
         $disb_reference=$this->disbursement['reference'];
         //Process Disbursement
-        Disbursement::create($this->disbursement);
+        // Disbursement::create($this->disbursement);
         Log::info('process disbursement >> '.\json_encode($this->disbursement));
         $b2c=MpesaClient::b2cPaymentRequest((object) $this->disbursement);
         Log::debug(" <<b2c>>>".json_decode($b2c));
