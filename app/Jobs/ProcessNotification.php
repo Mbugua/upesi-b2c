@@ -32,12 +32,13 @@ class ProcessNotification implements ShouldQueue
         //
         $notify=Notification::updateOrCreate(
                                 ['conversation_id' => $this->notification['conversation_id'],
-                                'originator' => $this->notification['originator']],
+                                'originator' => $this->notification['originator']
+                                ],
                                 ['result_type'=>$this->notification['result_type'],
                                  'result_desc'=>$this->notification['result_desc'],
                                  'transaction_id'=>$this->notification['transaction_id'],
                                  'result_code'=>$this->notification['result_code']
-                ]);
+                                 ]);
             $notify->save();
     }
 }
