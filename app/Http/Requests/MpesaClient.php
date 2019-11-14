@@ -14,7 +14,7 @@ class MpesaClient
         Log::info('MpesaClient::b2cPaymentRequest >>'.\json_encode($data));
         try{
             $mpesa = new \Safaricom\Mpesa\Mpesa();
-            $securityCredential=self::getSecurityCredentials();
+            $securityCredential=self::generateSC();
             $commandID=env("MPESA_B2C_COMMANDID") ?:'SalaryPayment';
             $amount=$data->amount;
             $partyA=env('MPESA_B2C_SHORTCODE') ?:$data->shortcode;
